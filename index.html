@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personalize Your Heart Cuff Bracelet</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&family=Great+Vibes&family=Dancing+Script:wght@400;600&family=Playfair+Display:ital@0;1&family=Montserrat:wght@400;500&family=Pinyon+Script&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #faf7f2;
+    --warm-white: #fffdf9;
+    --gold: #c9a84c;
+    --gold-light: #e8d5a3;
+    --gold-dark: #8b6914;
+    --silver: #9ba4ae;
+    --silver-light: #d6dde4;
+    --silver-dark: #5a6472;
+    --text: #2c2420;
+    --text-muted: #7a6e68;
+    --border: #e8e0d6;
+    --radius: 16px;
+  }
+
+  body {
+    background: var(--cream);
+    font-family: 'Jost', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  header {
+    width: 100%;
+    padding: 28px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--warm-white);
+  }
+
+  .brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    color: var(--text);
+  }
+
+  .brand span { color: var(--gold); }
+
+  .etsy-back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .etsy-back:hover { color: var(--gold); }
+
+  main {
+    width: 100%;
+    max-width: 1100px;
+    padding: 60px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .preview-panel {
+    position: sticky;
+    top: 40px;
+  }
+
+  .preview-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+
+  .bracelet-canvas {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--warm-white);
+    box-shadow: 0 4px 40px rgba(44,36,32,0.08);
+  }
+
+  .bracelet-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 24px;
+    transition: opacity 0.4s ease;
+    position: absolute;
+    top: 0; left: 0;
+  }
+
+  .bracelet-img.hidden { opacity: 0; }
+
+  .heart-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  .color-badge {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .color-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    transition: background 0.3s;
+  }
+
+  .color-dot.gold { background: linear-gradient(135deg, #e8d5a3, #c9a84c, #8b6914); }
+  .color-dot.silver { background: linear-gradient(135deg, #d6dde4, #9ba4ae, #5a6472); }
+
+  .color-name {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  .form-panel { display: flex; flex-direction: column; gap: 36px; }
+
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.6rem;
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--text);
+  }
+
+  .page-subtitle {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-top: 12px;
+  }
+
+  .step { display: flex; flex-direction: column; gap: 16px; }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--text);
+    color: var(--cream);
+    font-size: 0.72rem;
+    font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+
+  .color-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .color-btn {
+    border: 1.5px solid var(--border);
+    background: var(--warm-white);
+    border-radius: 12px;
+    padding: 18px 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Jost', sans-serif;
+  }
+
+  .color-btn:hover { border-color: var(--text-muted); }
+
+  .color-btn.active.gold-btn {
+    border-color: var(--gold);
+    background: #fdf9f0;
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  }
+
+  .color-btn.active.silver-btn {
+    border-color: var(--silver);
+    background: #f5f7f9;
+    box-shadow: 0 0 0 3px rgba(155,164,174,0.15);
+  }
+
+  .swatch {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .swatch.gold { background: conic-gradient(from 0deg, #e8d5a3, #c9a84c, #f0e0a0, #8b6914, #e8d5a3); }
+  .swatch.silver { background: conic-gradient(from 0deg, #d6dde4, #9ba4ae, #e8ecf0, #5a6472, #d6dde4); }
+
+  .color-btn-label { display: flex; flex-direction: column; align-items: flex-start; }
+  .color-btn-name { font-size: 0.88rem; font-weight: 400; color: var(--text); }
+  .color-btn-sub { font-size: 0.72rem; color: var(--text-muted); font-weight: 300; margin-top: 2px; }
+
+  .text-field-wrap { position: relative; }
+
+  .text-input {
+    width: 100%;
+    padding: 18px 70px 18px 20px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--warm-white);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .text-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+  }
+
+  .char-count {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  .char-count.warn { color: #c0392b; font-weight: 500; }
+
+  .text-hint {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-top: 8px;
+  }
+
+  .font-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .font-btn {
+    border: 1.5px solid var(--border);
+    background: var(--warm-white);
+    border-radius: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
+  }
+
+  .font-btn:hover { border-color: var(--text-muted); }
+
+  .font-btn.active {
+    border-color: var(--gold);
+    background: #fdf9f0;
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  }
+
+  .font-preview {
+    font-size: 1.4rem;
+    color: var(--text);
+    line-height: 1.2;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+  }
+
+  .font-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-family: 'Jost', sans-serif;
+  }
+
+  .divider { height: 1px; background: var(--border); }
+
+  .gen-btn {
+    background: var(--text);
+    color: var(--cream);
+    border: none;
+    border-radius: 12px;
+    padding: 20px 32px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+
+  .gen-btn:hover { background: var(--gold-dark); transform: translateY(-1px); }
+  .gen-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+
+  .code-section {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--warm-white);
+    border: 1.5px solid var(--gold-light);
+    border-radius: 14px;
+    padding: 28px;
+    animation: slideUp 0.35s ease;
+  }
+
+  .code-section.visible { display: flex; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .code-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    font-weight: 500;
+  }
+
+  .code-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+
+  .code-value {
+    flex: 1;
+    font-family: monospace;
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    word-break: break-all;
+  }
+
+  .copy-btn {
+    background: var(--gold);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .copy-btn:hover { background: var(--gold-dark); }
+  .copy-btn.copied { background: #5a8a5a; }
+
+  .code-instructions {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .code-instructions strong { color: var(--text); font-weight: 400; }
+
+  .etsy-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #f1641e;
+    color: white;
+    border-radius: 12px;
+    padding: 16px 24px;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    margin-top: 4px;
+  }
+
+  .etsy-cta:hover { background: #d4521a; transform: translateY(-1px); }
+
+  footer {
+    width: 100%;
+    padding: 32px 40px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 768px) {
+    main { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px; }
+    header { padding: 20px 24px; }
+    .preview-panel { position: static; }
+    .page-title { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Heart Cuff <span>✦</span> Personalizer</div>
+  <a href="#" class="etsy-back" id="etsy-back-link">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    Back to Etsy
+  </a>
+</header>
+
+<main>
+  <!-- LEFT: Preview -->
+  <div class="preview-panel">
+    <p class="preview-label">Live Preview</p>
+    <div class="bracelet-canvas">
+      <img id="img-gold"   class="bracelet-img"        src="images/gold.png"   alt="Gold Heart Cuff Bracelet" />
+      <img id="img-silver" class="bracelet-img hidden" src="images/silver.png" alt="Silver Heart Cuff Bracelet" />
+      <svg class="heart-overlay" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <text id="preview-text"
+          x="253" y="396"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          font-size="22"
+          fill="rgba(100,72,10,0.55)">
+        </text>
+      </svg>
+    </div>
+    <div class="color-badge">
+      <div class="color-dot gold" id="badge-dot"></div>
+      <span class="color-name" id="badge-name">18k Gold Plated</span>
+    </div>
+  </div>
+
+  <!-- RIGHT: Form -->
+  <div class="form-panel">
+    <div>
+      <h1 class="page-title">Personalize<br>Your Bracelet</h1>
+      <p class="page-subtitle">Choose your metal finish, pick a font style, and enter the name or message to engrave on the heart charm. Your live preview updates instantly.</p>
+    </div>
+
+    <!-- Step 1: Color -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div class="step-title">Choose Your Metal Finish</div>
+      </div>
+      <div class="color-toggle">
+        <button class="color-btn gold-btn active" id="btn-gold" onclick="selectColor('gold')">
+          <div class="swatch gold"></div>
+          <div class="color-btn-label">
+            <span class="color-btn-name">Gold</span>
+            <span class="color-btn-sub">18k Gold Plated</span>
+          </div>
+        </button>
+        <button class="color-btn silver-btn" id="btn-silver" onclick="selectColor('silver')">
+          <div class="swatch silver"></div>
+          <div class="color-btn-label">
+            <span class="color-btn-name">Silver</span>
+            <span class="color-btn-sub">Stainless Steel</span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Step 2: Font -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div class="step-title">Choose Your Font Style</div>
+      </div>
+      <div class="font-grid" id="font-grid"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Step 3: Text -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div class="step-title">Enter Your Engraving Text</div>
+      </div>
+      <div class="text-field-wrap">
+        <input
+          type="text"
+          id="engrave-text"
+          class="text-input"
+          placeholder="e.g. Sophia"
+          maxlength="12"
+          oninput="updatePreview()"
+        />
+        <span class="char-count" id="char-count">
+          <span id="char-num">0</span>/12
+        </span>
+      </div>
+      <p class="text-hint">✦ Max 12 characters · Case sensitive · Preview updates live</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Step 4: Generate -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">4</div>
+        <div class="step-title">Generate Your Personalization Code</div>
+      </div>
+
+      <button class="gen-btn" id="gen-btn" onclick="generateCode()" disabled>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        Generate My Code
+      </button>
+
+      <div class="code-section" id="code-section">
+        <p class="code-label">✦ Your Personalization Code</p>
+        <div class="code-box">
+          <span class="code-value" id="code-display"></span>
+          <button class="copy-btn" id="copy-btn" onclick="copyCode()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            Copy
+          </button>
+        </div>
+        <p class="code-instructions">
+          <strong>How to use:</strong> Go back to your Etsy listing and paste this code into the personalization / notes box before checking out. This tells us the exact color, font, and text to engrave on your bracelet.
+        </p>
+        <a href="#" class="etsy-cta" id="etsy-cta-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+            <line x1="6" y1="1" x2="6" y2="4"/>
+            <line x1="10" y1="1" x2="10" y2="4"/>
+            <line x1="14" y1="1" x2="14" y2="4"/>
+          </svg>
+          Return to Etsy &amp; Complete Order
+        </a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  © Heart Cuff Personalizer · Powered by Printify · All personalizations reviewed before production
+</footer>
+
+<script>
+  // ============================================================
+  // ✏️  EDIT THIS LINE — paste your Etsy listing URL below
+  // ============================================================
+  const ETSY_LISTING_URL = 'https://www.etsy.com/listing/YOUR_LISTING_ID/your-listing-name';
+  // ============================================================
+
+  // Font definitions (Printify-available styles)
+  const FONTS = [
+    { id: 'stylish',  label: 'Stylish',  css: "'Great Vibes', cursive",       sample: 'Sophia' },
+    { id: 'script',   label: 'Script',   css: "'Dancing Script', cursive",    sample: 'Sophia' },
+    { id: 'elegant',  label: 'Elegant',  css: "'Pinyon Script', cursive",     sample: 'Sophia' },
+    { id: 'classic',  label: 'Classic',  css: "'Playfair Display', serif",    sample: 'Sophia' },
+    { id: 'modern',   label: 'Modern',   css: "'Montserrat', sans-serif",     sample: 'SOPHIA' },
+    { id: 'playful',  label: 'Playful',  css: "'Pacifico', cursive",          sample: 'Sophia' },
+  ];
+
+  let selectedColor = 'gold';
+  let selectedFont  = FONTS[0];
+
+  // Set Etsy links
+  document.getElementById('etsy-back-link').href = ETSY_LISTING_URL;
+  document.getElementById('etsy-cta-link').href  = ETSY_LISTING_URL;
+
+  // Render font grid
+  function renderFontGrid() {
+    const grid = document.getElementById('font-grid');
+    grid.innerHTML = FONTS.map(f => `
+      <button class="font-btn ${f.id === selectedFont.id ? 'active' : ''}"
+              onclick="selectFont('${f.id}')">
+        <span class="font-preview" style="font-family:${f.css}">${f.sample}</span>
+        <span class="font-label">${f.label}</span>
+      </button>
+    `).join('');
+  }
+
+  function selectFont(id) {
+    selectedFont = FONTS.find(f => f.id === id);
+    renderFontGrid();
+    updatePreview();
+    resetCode();
+  }
+
+  function selectColor(color) {
+    selectedColor = color;
+
+    document.getElementById('img-gold').classList.toggle('hidden', color !== 'gold');
+    document.getElementById('img-silver').classList.toggle('hidden', color !== 'silver');
+    document.getElementById('btn-gold').classList.toggle('active', color === 'gold');
+    document.getElementById('btn-silver').classList.toggle('active', color === 'silver');
+
+    const dot  = document.getElementById('badge-dot');
+    const name = document.getElementById('badge-name');
+    dot.className  = 'color-dot ' + color;
+    name.textContent = color === 'gold' ? '18k Gold Plated' : 'Stainless Steel Silver';
+
+    document.getElementById('preview-text').setAttribute('fill',
+      color === 'gold' ? 'rgba(100,72,10,0.55)' : 'rgba(60,70,80,0.55)'
+    );
+
+    updatePreview();
+    resetCode();
+  }
+
+  function updatePreview() {
+    const txt     = document.getElementById('engrave-text').value;
+    const count   = document.getElementById('char-num');
+    const counter = document.getElementById('char-count');
+    const pvTxt   = document.getElementById('preview-text');
+    const btn     = document.getElementById('gen-btn');
+
+    count.textContent = txt.length;
+    counter.classList.toggle('warn', txt.length >= 12);
+
+    pvTxt.textContent = txt;
+    pvTxt.setAttribute('font-family', selectedFont.css);
+
+    const size = txt.length > 8 ? 17 : txt.length > 5 ? 20 : 23;
+    pvTxt.setAttribute('font-size', size);
+
+    btn.disabled = txt.trim().length === 0;
+    resetCode();
+  }
+
+  function generateCode() {
+    const txt   = document.getElementById('engrave-text').value.trim();
+    if (!txt) return;
+
+    const color = selectedColor.toUpperCase();
+    const font  = selectedFont.label.toUpperCase();
+    const check = simpleHash(color + font + txt);
+    const code  = `${color}-${font}-${txt.toUpperCase()}-${check}`;
+
+    document.getElementById('code-display').textContent = code;
+    document.getElementById('code-section').classList.add('visible');
+  }
+
+  function simpleHash(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) {
+      h = ((h << 5) - h + str.charCodeAt(i)) | 0;
+    }
+    return Math.abs(h).toString(36).toUpperCase().slice(0, 6);
+  }
+
+  function resetCode() {
+    document.getElementById('code-section').classList.remove('visible');
+    const btn = document.getElementById('copy-btn');
+    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="9" y="9" width="13" height="13" rx="2"/>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+    </svg> Copy`;
+    btn.classList.remove('copied');
+  }
+
+  function copyCode() {
+    const code = document.getElementById('code-display').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg> Copied!`;
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg> Copy`;
+        btn.classList.remove('copied');
+      }, 2500);
+    });
+  }
+
+  // Init
+  renderFontGrid();
+</script>
+</body>
+</html>
+```
+
+Click **Commit new file** to save it.
+
+---
+
+## Step 4 — Enable GitHub Pages (Free Hosting)
+
+1. In your repo, click **Settings** (top tab)
+2. Scroll down to **Pages** in the left sidebar
+3. Under **Branch**, select `main` → `/ (root)` → click **Save**
+4. Wait ~60 seconds, then your live URL will appear:
+```
+   https://YOUR-USERNAME.github.io/bracelet-personalizer/
+```
+
+---
+
+## Step 5 — Shorten to a `personalize.at` Link
+
+1. Copy your GitHub Pages URL
+2. Go to **[shorturl.at](https://shorturl.at)**
+3. Paste the URL → shorten → select **personalize.at** as the domain
+4. Your final link will look like:
+```
+   https://personalize.at/xxxxxx
